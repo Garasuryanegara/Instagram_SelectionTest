@@ -1,4 +1,15 @@
-import { Avatar, Box, Center, Flex, Icon, Image } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Center,
+  Flex,
+  Icon,
+  Image,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { SlOptions, SlPaperPlane } from "react-icons/sl";
 import { FcLikePlaceholder } from "react-icons/fc";
 import { TbMessageCircle2 } from "react-icons/tb";
@@ -7,9 +18,11 @@ import { IoPaperPlaneOutline } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { api } from "../api/api";
+import PostDetail from "./postDetail";
 
 export default function PostCard() {
   const userSelector = useSelector((state) => state.auth);
+
   //get all post
   const [allPost, setAllPost] = useState();
   useEffect(() => {
@@ -26,6 +39,9 @@ export default function PostCard() {
     // console.log(allPost);
     fetchAll();
   }, []);
+
+  //buka tutup modal
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -86,6 +102,9 @@ export default function PostCard() {
                       transform="scaleX(-1)"
                       w={"24px"}
                       h={"24px"}
+                      onClick={() => {
+                        onOpen();
+                      }}
                     />
                   </Center>
                   <Center w={"40px"} h={"40px"}>
@@ -126,6 +145,18 @@ export default function PostCard() {
           </Flex>
         ))}
       </Flex>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent
+          maxW={"1100px"}
+          w={"100%"}
+          maxH={"700px"}
+          h={"100%"}
+          borderRadius={"8px"}
+        >
+          <PostDetail isOpen={isOpen} onClose={onClose} />
+        </ModalContent>
+      </Modal>
     </>
   );
 }

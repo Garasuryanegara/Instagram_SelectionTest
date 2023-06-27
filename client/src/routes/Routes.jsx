@@ -7,7 +7,7 @@ import ProfilePage from "../pages/ProfilePage";
 import ChangePasswordPage from "../pages/ChangePasswordPage";
 import VerificationPage from "../pages/VerificationPage";
 import ProtectedPage from "./ProtectedPage";
-import VerificationBox from "../components/verificationBox";
+
 
 const routes = [
   <Route
@@ -66,7 +66,7 @@ const routes = [
       // </ProtectedPage>
     }
   ></Route>,
-  <Route path="/verif" element={<VerificationBox />}></Route>,
+ 
 ];
 
 export default routes;

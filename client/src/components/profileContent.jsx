@@ -30,6 +30,7 @@ import ModalEdit from "./modalEdit";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { api } from "../api/api";
+import PostDetail from "./postDetail";
 export default function ProfileContent() {
   //fetch posting by id dan hitung jumlah post
   const [postings, setPostings] = useState([]);
@@ -47,6 +48,11 @@ export default function ProfileContent() {
   const nav = useNavigate();
   //buka tutup modal posting
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenModal2,
+    onOpen: onOpenModal2,
+    onClose: onCloseModal2,
+  } = useDisclosure();
   // memanggil userselector
   const userSelector = useSelector((state) => state.auth);
   // console.log(userSelector);
@@ -193,6 +199,9 @@ export default function ProfileContent() {
                     w={"309px"}
                     h={"309px"}
                     objectFit={"contain"}
+                    onClick={() => {
+                      onOpenModal2();
+                    }}
                   />
                   {/* </GridItem> */}
                 </Box>
@@ -211,6 +220,18 @@ export default function ProfileContent() {
           borderRadius={"8px"}
         >
           <ModalEdit isOpen={isOpen} onClose={onClose} />
+        </ModalContent>
+      </Modal>
+      <Modal isOpen={isOpenModal2} onClose={onCloseModal2} isCentered>
+        <ModalOverlay />
+        <ModalContent
+          maxW={"1100px"}
+          w={"100%"}
+          maxH={"700px"}
+          h={"100%"}
+          borderRadius={"8px"}
+        >
+          <PostDetail isOpen={isOpenModal2} onClose={onCloseModal2} />
         </ModalContent>
       </Modal>
     </>
