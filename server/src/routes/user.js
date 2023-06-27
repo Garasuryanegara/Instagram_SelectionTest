@@ -19,5 +19,11 @@ router.post(
   fileUploader({ destinationFolder: "profileImg" }).single("profileImg"),
   userController.uploadAvatar
 );
+router.get("/verification", userController.verify);
+router.patch(
+  "/verification-token",
+  userController.getIdByToken,
+  userController.verifySuccess
+);
 
 module.exports = router;

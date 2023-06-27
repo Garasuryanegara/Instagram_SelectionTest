@@ -59,11 +59,11 @@ const routes = [
     }
   ></Route>,
   <Route
-    path="/verification-email"
+    path="/verification-email/:token"
     element={
-      <ProtectedPage guestOnly={true}>
-        <VerificationPage />
-      </ProtectedPage>
+      // <ProtectedPage guestOnly={true}>
+      <VerificationPage />
+      // </ProtectedPage>
     }
   ></Route>,
   <Route path="/verif" element={<VerificationBox />}></Route>,

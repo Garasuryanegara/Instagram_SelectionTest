@@ -75,9 +75,10 @@ const userController = {
   getIdByToken: async (req, res, next) => {
     try {
       const { token } = req.query;
+      console.log("INI TOKEN", token);
       const p = await db.token.findOne({
         where: {
-          token: req.query.token,
+          token: token,
           expired: {
             [Op.gte]: moment().format(),
           },
@@ -93,7 +94,7 @@ const userController = {
         },
       });
       delete user.dataValues.password;
-      console.log(user);
+      console.log("INI USER", user);
       req.user = user.dataValues;
       next();
     } catch (err) {
@@ -262,6 +263,96 @@ const userController = {
       // console.log(edit);
       // console.log(user2);
       return res.send(user2.dataValues);
+    } catch (err) {
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
+  verify: async (req, res) => {
+    try {
+      const { email } = req.query;
+      const user = await db.user.findOne({
+        where: {
+          email: email,
+        },
+      });
+      if (user.dataValues) {
+        await db.token.update(
+          {
+            valid: false,
+          },
+          {
+            where: {
+              payload: JSON.stringify({ id: user.dataValues.id }),
+              status: "VERIFICATION",
+            },
+          }
+        );
+
+        const payload = {
+          id: user.dataValues.id,
+        };
+        const generateToken = nanoid();
+        const tkn = await db.token.create({
+          token: generateToken,
+          expired: moment().add(1, "days").format(),
+          payload: JSON.stringify(payload),
+          status: "VERIFICATION",
+        });
+
+        await mailer({
+          subject: "INSTAGRAM VERIFICATION ACCOUNT",
+          to: "suryanegarasinatriyya@gmail.com",
+          text: process.env.url_verif + "/" + generateToken,
+        });
+        return res.send({
+          message: "silahkan check email anda",
+        });
+      }
+    } catch (err) {
+      res.status(500).send({
+        message: err.message,
+      });
+    }
+  },
+  verifySuccess: async (req, res) => {
+    try {
+      // let token = req.headers.authorization;
+      // token = token.split[1];
+      const { token } = req.query;
+      const { id } = req.user;
+      // console.log(token);
+      await db.user.update(
+        {
+          verification: true,
+        },
+        {
+          where: {
+            id: id,
+          },
+        }
+      );
+      await db.token.update(
+        {
+          valid: false,
+        },
+        {
+          where: {
+            token: token,
+            status: "VERIFICATION",
+          },
+        }
+      );
+      await db.user
+        .findOne({
+          where: {
+            id: id,
+          },
+        })
+        .then((result) => {
+          res.send(result);
+        });
     } catch (err) {
       res.status(500).send({
         message: err.message,

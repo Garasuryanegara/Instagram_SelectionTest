@@ -4,6 +4,7 @@ const init = {
   biodata: "",
   email: "",
   img_url: "",
+  verification: "",
 };
 
 function userReducer(state = init, action) {
@@ -17,6 +18,7 @@ function userReducer(state = init, action) {
       biodata: action.payload.biodata,
       email: action.payload.email,
       img_url: action.payload.img_url,
+      verification: action.payload.verification,
     };
   } else if (action.type == "logout") {
     return init;

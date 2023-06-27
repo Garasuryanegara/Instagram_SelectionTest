@@ -76,6 +76,18 @@ export default function ModalEdit(props) {
     console.log(hasil);
     return props.onClose();
   };
+
+  //get data dan kirim email
+  const verification = async () => {
+    await api
+      .get("/user/verification", {
+        params: { email: userSelector.email },
+      })
+      .then((res) => {
+        alert(res.data.message);
+      });
+  };
+
   return (
     <>
       <Center
@@ -194,8 +206,11 @@ export default function ModalEdit(props) {
           padding={"20px 80px"}
           gap={"15px"}
           alignItems={"center"}
-          justifyContent={"right"}
+          justifyContent={"space-between"}
         >
+          <Button bg={"whatsapp.500"} color={"white"} onClick={verification}>
+            Email Verification
+          </Button>
           <Button
             fontWeight={"500"}
             bg={"#2398f6"}

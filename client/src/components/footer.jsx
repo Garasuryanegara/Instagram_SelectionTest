@@ -11,6 +11,7 @@ import {
   ModalContent,
   ModalOverlay,
   Modal,
+  useToast,
 } from "@chakra-ui/react";
 import logo from "../assets/images/Instagram_logo.png";
 import { AiOutlineHome } from "react-icons/ai";
@@ -33,6 +34,22 @@ export default function Footer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   //ambil data dengan userSelector
   const userSelector = useSelector((state) => state.auth);
+  //variabel dan function agar tidak bisa post saat belum verification
+
+  const toast = useToast();
+  const handleClick = () => {
+    if (userSelector.verification) {
+      return onOpen();
+    } else {
+      return toast({
+        title: "Verify Your Email First!",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
   return (
     <>
       <Flex
@@ -53,12 +70,7 @@ export default function Footer() {
         >
           <Icon as={AiOutlineHome} height="24px" width="24px"></Icon>
         </Flex>
-        <Flex
-          className="flexSideBar"
-          onClick={() => {
-            onOpen();
-          }}
-        >
+        <Flex className="flexSideBar" onClick={handleClick}>
           <Icon as={FiPlusSquare} height="24px" width={"24px"}></Icon>
         </Flex>
         {/* <Flex className="flexSideBar">

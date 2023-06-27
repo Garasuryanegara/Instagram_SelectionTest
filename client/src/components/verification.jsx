@@ -1,10 +1,34 @@
 import { Button, Center, Flex, Icon, Input } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
+import { api } from "../api/api";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Verification() {
-  //menampung value email
-  const [email, setEmail] = useState("");
+  //userSelector
+  const userSelector = useSelector((state) => state.auth);
+
+  //mengubah value verification menjadi true
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const verification = async () => {
+    const { pathname } = location;
+    const token = pathname.split("/")[2];
+    console.log(token);
+    await api
+      .patch("/user/verification-token?token=" + token, null)
+      .then((result) => {
+        console.log(result.data);
+        dispatch({
+          type: "login",
+          payload: result.data,
+        });
+      });
+  };
+  useEffect(() => {
+    verification();
+  }, []);
   return (
     <>
       <Center w={"100vw"} h={"100vh"}>

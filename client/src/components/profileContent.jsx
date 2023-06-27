@@ -31,47 +31,6 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { api } from "../api/api";
 export default function ProfileContent() {
-  const posts = [
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-    {
-      img: "https://e1.pxfuel.com/desktop-wallpaper/892/148/desktop-wallpaper-instagram-lowkezmedia-for-daily-porsche-rwb-phone.jpg",
-    },
-  ];
   //fetch posting by id dan hitung jumlah post
   const [postings, setPostings] = useState([]);
   const fetchPost = async () => {
