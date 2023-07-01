@@ -32,6 +32,13 @@ const postController = {
     const { user_id } = req.query;
     try {
       const post = await db.posting.findAll({
+        include: [
+          {
+            model: db.user,
+            as: "user",
+            attributes: ["username", "img_url"],
+          },
+        ],
         where: {
           user_id,
         },
@@ -53,6 +60,7 @@ const postController = {
             attributes: ["username", "img_url"],
           },
         ],
+        order: [["createdAt", "DESC"]],
       });
       res.send({
         user,

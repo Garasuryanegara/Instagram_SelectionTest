@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { api } from "../api/api";
 import PostDetail from "./postDetail";
+import moment from "moment";
 
 export default function PostCard() {
   const userSelector = useSelector((state) => state.auth);
@@ -42,6 +43,40 @@ export default function PostCard() {
 
   //buka tutup modal
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  //menangkap value posting
+  const [postDet, setPostDet] = useState({
+    img_url: "",
+    caption: "",
+    location: "",
+    user_id: "",
+    avatar_url: "",
+    username: "",
+    createdAt: "",
+  });
+  const handleObjValue = (val) => {
+    console.log(val);
+    setPostDet({
+      ...postDet,
+      img_url: val.img_url,
+      caption: val.caption,
+      location: val.location,
+      user_id: val.user_id,
+      avatar_url: val.user.img_url,
+      username: val.user.username,
+      createdAt: val.createdAt,
+    });
+    console.log({
+      ...postDet,
+      img_url: val.img_url,
+      caption: val.caption,
+      location: val.location,
+      user_id: val.user_id,
+      avatar_url: val.user.img_url,
+      username: val.user.username,
+      createdAt: val.createdAt,
+    });
+  };
 
   return (
     <>
@@ -103,6 +138,7 @@ export default function PostCard() {
                       w={"24px"}
                       h={"24px"}
                       onClick={() => {
+                        handleObjValue(val);
                         onOpen();
                       }}
                     />
@@ -138,7 +174,9 @@ export default function PostCard() {
                 View all 12 comments
               </Flex>
               <Flex w={"100%"} h={"11px"} fontSize={"12px"} gap={"10px"}>
-                <Box color={"grey"}>1 HOURS AGO</Box>
+                <Box color={"grey"}>
+                  {moment(val.createdAt).fromNow().toUpperCase()}
+                </Box>
                 <Box> See translation</Box>
               </Flex>
             </Flex>
@@ -154,7 +192,7 @@ export default function PostCard() {
           h={"100%"}
           borderRadius={"8px"}
         >
-          <PostDetail isOpen={isOpen} onClose={onClose} />
+          <PostDetail isOpen={isOpen} onClose={onClose} postDet={postDet} />
         </ModalContent>
       </Modal>
     </>

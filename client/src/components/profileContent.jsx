@@ -45,6 +45,10 @@ export default function ProfileContent() {
   useEffect(() => {
     fetchPost();
   }, []);
+  // //render setiap ada postingan baru
+  // useEffect(() => {
+  //   fetchPost();
+  // }, [postings]);
   const nav = useNavigate();
   //buka tutup modal posting
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -61,6 +65,39 @@ export default function ProfileContent() {
   const logout = () => {
     localStorage.removeItem("auth");
     return nav("/login");
+  };
+  //menangkap value posting
+  const [postDet, setPostDet] = useState({
+    img_url: "",
+    caption: "",
+    location: "",
+    user_id: "",
+    avatar_url: "",
+    username: "",
+    createdAt: "",
+  });
+  const handleObjValue = (val) => {
+    console.log(val);
+    setPostDet({
+      ...postDet,
+      img_url: val.img_url,
+      caption: val.caption,
+      location: val.location,
+      user_id: val.user_id,
+      avatar_url: val.user.img_url,
+      username: val.user.username,
+      createdAt: val.createdAt,
+    });
+    console.log({
+      ...postDet,
+      img_url: val.img_url,
+      caption: val.caption,
+      location: val.location,
+      user_id: val.user_id,
+      avatar_url: val.user.img_url,
+      username: val.user.username,
+      createdAt: val.createdAt,
+    });
   };
   return (
     <>
@@ -115,7 +152,7 @@ export default function ProfileContent() {
               </Flex>
               <Flex w={"100%"} h={"18px"} alignItems={"center"} gap={"40px"}>
                 <Flex fontSize={"16px"} gap={"4px"}>
-                  <Flex fontWeight={"500"}>1</Flex>
+                  <Flex fontWeight={"500"}>{postings.length}</Flex>
                   post
                 </Flex>
                 <Flex fontSize={"16px"} gap={"4px"}>
@@ -198,8 +235,9 @@ export default function ProfileContent() {
                     src={val.img_url}
                     w={"309px"}
                     h={"309px"}
-                    objectFit={"contain"}
+                    objectFit={"cover"}
                     onClick={() => {
+                      handleObjValue(val);
                       onOpenModal2();
                     }}
                   />
@@ -231,7 +269,11 @@ export default function ProfileContent() {
           h={"100%"}
           borderRadius={"8px"}
         >
-          <PostDetail isOpen={isOpenModal2} onClose={onCloseModal2} />
+          <PostDetail
+            isOpen={isOpenModal2}
+            onClose={onCloseModal2}
+            postDet={postDet}
+          />
         </ModalContent>
       </Modal>
     </>

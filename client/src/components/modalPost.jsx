@@ -21,6 +21,16 @@ import { useSelector } from "react-redux";
 
 export default function ModalPost(props) {
   const userSelector = useSelector((state) => state.auth);
+  // function fetch postingan di profile
+  const [postings, setPostings] = useState([]);
+  const fetchPost = async () => {
+    await api
+      .get("/post/v2", { params: { user_id: userSelector.id } })
+      .then((res) => {
+        console.log(res.data);
+        setPostings(res.data);
+      });
+  };
   //menyimpan file gambar yang dipilih
   const [selectedFile, setSelectedFile] = useState(null);
   const [imgUrl, setImgUrl] = useState();
@@ -64,6 +74,9 @@ export default function ModalPost(props) {
     alert("Posting success");
     return props.onClose();
   };
+  useEffect(() => {
+    fetchPost();
+  }, [postImage()]);
 
   return (
     <>

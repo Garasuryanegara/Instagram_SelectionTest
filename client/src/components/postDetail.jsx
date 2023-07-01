@@ -4,6 +4,7 @@ import {
   Center,
   Flex,
   Icon,
+  Image,
   Input,
   InputGroup,
   InputRightElement,
@@ -14,8 +15,15 @@ import { TbMessageCircle2 } from "react-icons/tb";
 import { BsBookmark } from "react-icons/bs";
 import { FcLikePlaceholder } from "react-icons/fc";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
+import { useEffect } from "react";
+import moment from "moment";
 
-export default function PostDetail() {
+export default function PostDetail(props) {
+  const { postDet } = props;
+  useEffect(() => {
+    console.log(postDet);
+  }, []);
+  // temp object map comments
   const comment = [
     { comment: "adwadawdawdad" },
     { comment: "adwadawdawdad" },
@@ -40,11 +48,17 @@ export default function PostDetail() {
     { comment: "adwadawdawdad" },
     { comment: "adwadawdawdad" },
   ];
+
   return (
     <>
       <Flex w={"100%"} h={"100%"}>
-        <Center w={"65%"} h={"100%"} bg={"red"}>
-          TESTINGGGG
+        <Center w={"65%"} h={"100%"}>
+          <Image
+            src={postDet.img_url}
+            w={"100%"}
+            h={"100%"}
+            objectFit={"contain"}
+          />
         </Center>
         <Flex w={"35%"} h={"100%"} flexDir={"column"} alignItems={"center"}>
           <Flex
@@ -55,20 +69,20 @@ export default function PostDetail() {
             borderBottom={"1px solid lightgrey"}
           >
             <Flex gap={"10px"} h={"40px"} alignItems={"center"}>
-              <Avatar w={"32px"} h={"32px"}></Avatar>
+              <Avatar w={"32px"} h={"32px"} src={postDet.avatar_url}></Avatar>
               <Flex
                 fontSize={"14px"}
                 alignItems={"left"}
                 // bg={"red"}
                 flexDir={"column"}
               >
-                <Flex fontWeight={"600"}>garasuryanegara</Flex>
+                <Flex fontWeight={"600"}>{postDet.username}</Flex>
                 <Flex
                   fontSize={"12px"}
                   paddingLeft={"5px"}
                   //   display={val.location ? "box" : "none"}
                 >
-                  bandung
+                  {postDet.location}
                 </Flex>
               </Flex>
             </Flex>
@@ -83,26 +97,26 @@ export default function PostDetail() {
             flexDir={"column"}
             rowGap={"16px"}
             overflowY={"scroll"}
-            css={{
-              "&::-webkit-scrollbar": {
-                display: "none",
-              },
-            }}
+            // css={{
+            //   "&::-webkit-scrollbar": {
+            //     display: "none",
+            //   },
+            // }}
           >
             <Flex w={"100%"} gap={"16px"}>
-              <Avatar w={"32px"} h={"32px"}></Avatar>
+              <Avatar w={"32px"} h={"32px"} src={postDet.avatar_url}></Avatar>
               <Flex
                 fontSize={"14px"}
                 alignItems={"left"}
                 flexDir={"column"}
                 w={"100%"}
               >
-                <Flex fontWeight={"600"}>garasuryanegara</Flex>
+                <Flex fontWeight={"600"}>{postDet.username}</Flex>
                 <Flex
                   fontSize={"12px"}
                   //   display={val.location ? "box" : "none"}
                 >
-                  Hello Guys ini adalah foto blalblalbalbalbla
+                  {postDet.caption}
                 </Flex>
               </Flex>
             </Flex>
@@ -162,7 +176,7 @@ export default function PostDetail() {
             147 likes
           </Flex>
           <Flex w={"90%"} h={"18px"} fontSize={"10px"}>
-            1 HOUR AGO
+            {moment(postDet.createdAt).fromNow().toUpperCase()}
           </Flex>
           <Flex
             w={"100%"}
